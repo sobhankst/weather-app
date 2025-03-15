@@ -1,80 +1,9 @@
 "use client";
+import WeatherIcon from "@/components/WeatherIcon";
+import { WeatherData } from "@/type/weatherData";
+import { WeatherIconCode } from "@/utils/weatherIcons";
 import { useState } from "react";
-import {
-  BiSun,
-  BiCloud,
-  BiCloudRain,
-  BiCloudSnow,
-  BiCloudDrizzle,
-  BiWind,
-  BiSearch,
-  BiCloudLightning,
-  BiMoon,
-} from "react-icons/bi";
-const getWeatherIcon = (iconCode: string) => {
-  switch (iconCode) {
-    // Day icons
-    case "01d": // Clear sky (day)
-      return <BiSun className="size-32 text-yellow-400" />;
-    case "02d": // Few clouds (day)
-      return <BiCloud className="size-32 text-gray-400" />;
-    case "03d": // Scattered clouds (day)
-      return <BiCloud className="size-32 text-gray-500" />;
-    case "04d": // Broken clouds (day)
-      return <BiCloud className="size-32 text-gray-600" />;
-    case "09d": // Shower rain (day)
-      return <BiCloudRain className="size-32 text-blue-400" />;
-    case "10d": // Rain (day)
-      return <BiCloudDrizzle className="size-32 text-blue-500" />;
-    case "11d": // Thunderstorm (day)
-      return <BiCloudLightning className="size-32 text-yellow-600" />;
-    case "13d": // Snow (day)
-      return <BiCloudSnow className="size-32 text-white" />;
-    case "50d": // Mist (day)
-      return <BiWind className="size-32 text-gray-300" />;
-
-    // Night icons
-    case "01n": // Clear sky (night)
-      return <BiMoon className="size-32 text-gray-300" />;
-    case "02n": // Few clouds (night)
-      return <BiCloud className="size-32 text-gray-400" />;
-    case "03n": // Scattered clouds (night)
-      return <BiCloud className="size-32 text-gray-500" />;
-    case "04n": // Broken clouds (night)
-      return <BiCloud className="size-32 text-gray-600" />;
-    case "09n": // Shower rain (night)
-      return <BiCloudRain className="size-32 text-blue-400" />;
-    case "10n": // Rain (night)
-      return <BiCloudDrizzle className="size-32 text-blue-500" />;
-    case "11n": // Thunderstorm (night)
-      return <BiCloudLightning className="size-32 text-yellow-600" />;
-    case "13n": // Snow (night)
-      return <BiCloudSnow className="size-32 text-white" />;
-    case "50n": // Mist (night)
-      return <BiWind className="size-32 text-gray-300" />;
-
-    // Default icon (clear sky)
-    default:
-      return <BiSun className="size-32 text-yellow-400" />;
-  }
-};
-
-interface WeatherData {
-  name: string;
-  main: {
-    temp: number;
-    humidity: number;
-  };
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  wind: {
-    speed: number;
-  };
-}
+import { BiSearch, BiWind } from "react-icons/bi";
 
 export default function Home() {
   const [city, setCity] = useState<string | null>(null);
@@ -129,10 +58,11 @@ export default function Home() {
         </div>
         {error && <p className="mt-2 text-red-300">{error}</p>}
 
-        <div className="mt-10 flex w-full items-center justify-center text-white">
-          {getWeatherIcon(data?.weather[0]?.icon || "01d")}
-          {/* <BiMoon className="size-32 object-cover" /> */}
-        </div>
+        {data && (
+          <div className="mt-20 flex w-full items-center justify-center text-white">
+            <WeatherIcon iconCode={data.weather[0].icon as WeatherIconCode} />
+          </div>
+        )}
         <h2 className="my-5 text-4xl font-bold">
           {data ? data.name : "London"}
         </h2>
