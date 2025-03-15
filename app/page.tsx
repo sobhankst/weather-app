@@ -1,7 +1,4 @@
 "use client";
-import { error } from "console";
-import Image from "next/image";
-import { env } from "process";
 import { useState } from "react";
 import {
   BiSun,
@@ -104,7 +101,7 @@ export default function Home() {
       setData(weatherData);
       setError(null);
       console.log(weatherData);
-    } catch (err) {
+    } catch {
       setError("Network error. Please try again.");
       setData(null);
     }
